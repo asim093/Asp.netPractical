@@ -1,0 +1,70 @@
+﻿@model Practical.Models.ProductSearchViewModel
+
+@{
+    ViewData["Title"] = "SearchByName";
+}
+
+<h1>Search By Name</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="SearchByName" method="get" class="mb-3">
+    <div class="form-group">
+        <label for="productName">Search by Name:</label>
+        <input type="text" name="productName" id="productName" value="@ViewBag.ProductName" class="form-control" />
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name) <!-- Assuming Category has a Name property -->
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Products.Any())
+{
+    <div class="alert alert-warning" role="alert">
+        No products found matching your search criteria.
+    </div>
+}
